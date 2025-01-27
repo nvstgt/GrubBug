@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}GrubBug - Learn Secure Coding{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h1>Debug Your Way to Better Security Skills</h1>
+        <p>Master web vulnerabilities and secure coding practices with hands-on learning.</p>
+    </div>
+</section>
+
+<section class="button">
+    <div class="container">
+        <h2>Choose Your Mode</h2>
+        <div class="mode-grid">
+            <div class="mode">
+                <h3>Demonstrations</h3>
+                <p>See the OWASP Top 10 and some examples of vulnerabilities in those categories.</p>
+                <a href="/demos" class="btn-secondary">View Demos</a>
+            </div>
+			<div class="mode">
+                <h3>Practice Mode</h3>
+                <p>Select vulnerabilities, set difficulty, and receive guided feedback.</p>
+                <a href="/practice" class="btn-secondary">Start Practice</a>
+            </div>
+            <div class="mode">
+                <h3>Exam Mode</h3>
+                <p>Test your skills with randomized scenarios and no hints.</p>
+                <a href="/exam/start" class="btn-secondary">Start Exam</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="difficulty">
+    <div class="container">
+        <h2>Adjustable Difficulty</h2>
+        <p>Customize your learning experience by selecting difficulty levels:</p>
+        <ul>
+            <li><strong>Beginner:</strong> Guided tasks with hints and examples.</li>
+            <li><strong>Intermediate:</strong> Realistic vulnerabilities with minimal guidance.</li>
+            <li><strong>Advanced:</strong> Complex challenges with no assistance.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="real-features">
+    <div class="container">
+        <div class="real-feature-grid">
+            <div class="real-feature">
+                <img src="static/images/setup/real-vulns.png" alt="Real Vulnerabilities">
+                <h3>Real Vulnerabilities</h3>
+                <p>Learn to identify and exploit real-world security flaws.</p>
+            </div>
+            <div class="real-feature">
+                <img src="static/images/setup/adj_dif.png" alt="Adjustable Difficulty">
+                <h3>Adjustable Difficulty</h3>
+                <p>Choose your challenge level for tailored learning.</p>
+            </div>
+            <div class="real-feature">
+                <img src="static/images/setup/inst_tools.png" alt="Instructor Tools">
+                <h3>Instructor Tools</h3>
+                <p>Track progress and provide guidance with instructor tools.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

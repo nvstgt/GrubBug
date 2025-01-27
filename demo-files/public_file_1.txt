@@ -1,0 +1,3 @@
+Owner: None
+Protected: False
+Content: This is a demo file named public_file_1.txt.

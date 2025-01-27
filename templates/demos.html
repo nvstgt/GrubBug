@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Resource Access{% endblock %}
+
+{% block content %}
+        <section class="features">
+            <div class="container">
+                <div class="feature-grid">
+					<a href="/A01-2021">
+                    <div class="real-feature">
+						<img src="static/images/setup/A01.png" alt="Real Vulnerabilities">
+                        <h3>A01-2021: Broken Access Control</h3>
+                        <p>Broken access control is a vulnerability that occurs when users can gain unauthorized access to resources or actions beyond their intended permissions.</p>
+                    </div>
+					</a>
+					<a href="/A02-2021">
+                    <div class="real-feature">
+                        <img src="static/images/setup/A02.png" alt="Adjustable Difficulty">
+                        <h3>A02-2021: Cryptographic Failures</h3>
+                        <p>Insufficient or improper encryption leads to exposure of sensitive data or allows attackers to manipulate or steal data.</p>
+                    </div>
+					</a>
+					<a href="/A03-2021">
+                    <div class="real-feature">
+                        <img src="static/images/setup/A03.png" alt="Instructor Tools">
+                        <h3>A03-2021: Injection</h3>
+                        <p>Malicious input, like SQL or command injection, tricks the application into executing unintended commands or accessing data without proper authorization.</p>
+                    </div>
+					</a>
+					<a href="/A04-2021">
+                    <div class="real-feature">
+                        <img src="static/images/setup/A04.png" alt="Real Vulnerabilities">
+                        <h3>A04-2021: Insecure Design</h3>
+                        <p>Applications lack secure design principles, leaving them vulnerable to exploitation due to inherent flaws in architecture or logic.</p>
+                    </div>
+					</a>
+					<a href="/A05-2021">
+                    <div class="real-feature">
+                        <img src="static/images/setup/A05.png" alt="Adjustable Difficulty">
+                        <h3>A05-2021: Security Misconfigurations</h3>
+                        <p>Improperly configured security settings, such as default credentials or overly permissive access controls, create vulnerabilities.</p>
+                    </div>
+					</a>
+					<a href="/A06-2021">
+                    <div class="real-feature">
+                        <img src="static/images/setup/A06.png" alt="Instructor Tools">
+                        <h3>A06-2021: Vulnerable and Outdated Components</h3>
+                        <p>Using outdated libraries or software introduces known vulnerabilities into the application.</p>
+                    </div>
+					</a>
+					<a href="/A07-2021">
+					<div class="real-feature">
+                        <img src="static/images/setup/A07.png" alt="Real Vulnerabilities">
+                        <h3>A07-2021: Identification and Authentication Failures</h3>
+                        <p>Weak authentication mechanisms or improperly implemented session management allow attackers to impersonate users.</p>
+                    </div>
+					</a>
+					<a href="/A08-2021">
+                    <div class="real-feature">
+                        <img src="static/images/setup/A08.png" alt="Adjustable Difficulty">
+                        <h3>A08-2021: Software and Data Integrity Failures</h3>
+                        <p>Trusting unverified software updates or external resources exposes the application to tampering and supply chain attacks.</p>
+                    </div>
+					</a>
+					<a href="/A09-2021">
+                    <div class="real-feature">
+                        <img src="static/images/setup/A09.png" alt="Instructor Tools">
+                        <h3>A09-2021: Security Logging and Monitoring Failures</h3>
+                        <p>Inadequate logging or monitoring of activities prevents detection of breaches or malicious behavior in time to mitigate damage.</p>
+                    </div>
+					</a>
+					<a href="/A10-2021">
+					<div class="real-feature">
+                        <img src="static/images/setup/A10.png" alt="Instructor Tools">
+                        <h3>A10-2021: Server-Side Request Forgery (SSRF)</h3>
+                        <p>Applications fetch resources without proper validation, allowing attackers to force server requests to unintended locations, often bypassing firewalls.</p>
+                    </div>
+					</a>
+                </div>
+            </div>
+        </section>
+{% endblock %}

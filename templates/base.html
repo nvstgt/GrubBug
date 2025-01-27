@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GrubBug{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+	<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <a href="/"><img src="/static/images/logo_hori.png" alt="GrubBug Logo" width="200"></a>
+        </div>
+        <nav>
+            <ul>
+                {% if current_user.is_authenticated %}
+                    <li>Welcome, {{ current_user.username }}!</li>
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/signup">Sign Up</a></li>
+                {% endif %}
+				<li><a href="/">Home</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025. Licensed under the MIT License. GrubBug is brought to you by Prof. C. R. Johnson, 
+            <a href="https://www.uwsp.edu">University of Wisconsin - Stevens Point</a></p>
+        </div>
+    </footer>
+
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

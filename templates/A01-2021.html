@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}A01-2021: Broken Access Control{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>A01-2021: Broken Access Control</h1>
+    <p>
+        Broken Access Control vulnerabilities occur when users can access resources or perform actions 
+        outside of their intended permissions. This hub showcases examples of insecure and secure implementations.
+    </p>
+
+    <div class="examples">
+    <h2>Examples</h2>
+    <ul>
+        <li>
+            <a href="/privileged-area">Role-Based Access Control Violation</a>
+            <p id="privileged-description">
+                In insecure mode, users can access this area without proper authorization. In secure mode, access is restricted to authorized roles only.
+            </p>
+        </li>
+        <li>
+            <a href="/direct-object-reference/2">Direct Object Reference</a>
+            <p id="direct-object-description">
+                In insecure mode, manipulating object identifiers (e.g., user IDs in a URL) allows unauthorized access to resources. In secure mode, these references are validated.
+            </p>
+        </li>
+        <li>
+            <a href="/api-delete/1">API Delete</a>
+            <p id="api-delete-description">
+                Explore the API delete functionality and understand how insecure implementations can lead to unauthorized data deletion. In insecure mode, use a tool like Postman or cURL to send a `POST` request to `/api-delete/<file_name>` and delete any file, even if you don't own it. In secure mode, deletion is restricted to the file owner, and protected files cannot be deleted.
+            </p>
+        </li>
+        <li>
+            <a href="/direct-file-access">Direct File Access</a>
+            <p id="file-access-description">
+                Simulate direct file access to understand the risks of insecure file handling.
+            </p>
+        </li>
+        <li>
+            <a href="/mass-assignment">Mass Assignment Vulnerability</a>
+            <p id="mass-assignment-description">
+                Experiment with mass assignment vulnerabilities and see how secure and insecure modes handle field updates.
+            </p>
+        </li>
+    </ul>
+</div>
+
+
+    <div class="toggle-section">
+        <h2>Secure/Insecure Mode</h2>
+        <p>Use the button below to toggle the site between secure and insecure modes to observe the vulnerabilities.</p>
+        <button id="toggle-mode" class="btn-primary">
+            Switch Mode
+        </button>
+        <p id="mode-status">Current Mode: Secure</p>
+    </div>
+    <a href="javascript:void(0)" onclick="window.history.length > 1 ? history.back() : window.location.href = '/'">Go Back</a>
+	<div class="examples">
+		<h2>File Demonstrations</h2>
+		<p>Below is a list of demo files. Use these files to test various access control vulnerabilities.</p>
+		<div id="file-list"></div>
+	</div>
+	<br><br>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+	const updateFileList = async () => {
+		try {
+			const response = await fetch('/get-files');
+			const data = await response.json();
+			console.log('Fetched files:', data); // Debugging: See if files are fetched
+			const fileList = document.getElementById('file-list');
+			fileList.innerHTML = ''; // Clear the list
+			if (!data.files || data.files.length === 0) {
+				fileList.innerHTML = '<li>No files found</li>';
+				return;
+			}
+			data.files.forEach(file => {
+				const listItem = document.createElement('li');
+				listItem.textContent = file;
+				fileList.appendChild(listItem);
+			});
+		} catch (error) {
+			console.error('Error fetching file list:', error);
+		}
+	};
+
+    // Fetch the file list every 0.5 seconds
+    setInterval(updateFileList, 500);
+
+    // Initial fetch on page load
+    document.addEventListener('DOMContentLoaded', updateFileList);
+</script>
+
+{% endblock %}
+

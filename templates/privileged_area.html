@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Privileged Area{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Privileged Area</h1>
+    <p>
+        Welcome to the privileged area. This page demonstrates Broken Access Control.
+    </p>
+    {% if mode == "insecure" %}
+        <p><strong>Warning:</strong> You have accessed this area without proper authorization!</p>
+    {% elif mode == "secure" %}
+        <p><strong>Secure Mode:</strong> Only authorized users can access this area.</p>
+    {% endif %}
+    <p>Current Mode: {{ mode | capitalize}}</p>
+    <a href="javascript:void(0)" onclick="window.history.length > 1 ? history.back() : window.location.href = '/'">Go Back</a>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}A01-2021: Broken Access Control{% endblock %}
+
+{% block content %}
+        <div class="container">
+            <h1>A02-2021: Cryptographic Failures</h1>
+            <p>
+                Cryptographic Failures occur when sensitive data is not properly protected through secure cryptographic methods. 
+                This hub demonstrates examples of insecure and secure cryptographic implementations.
+            </p>
+
+            <div class="examples">
+                <h2>Examples</h2>
+                <ul>
+                    <li><a href="/insecure-encryption">Insecure Encryption</a></li>
+                    <li><a href="/missing-encryption">Missing Encryption</a></li>
+                    <!-- Add more examples as needed -->
+                </ul>
+            </div>
+
+            <div class="toggle-section">
+                <h2>Secure/Insecure Mode</h2>
+                <p>Use the button below to toggle the site between secure and insecure modes to observe the vulnerabilities.</p>
+                <button id="toggle-mode" class="btn-primary">
+                    Switch to Insecure Mode
+                </button>
+                <p id="mode-status">Current Mode: Secure</p>
+            </div>
+			    <a href="javascript:void(0)" onclick="window.history.length > 1 ? history.back() : window.location.href = '/'">Go Back</a>
+        </div>
+    </main>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

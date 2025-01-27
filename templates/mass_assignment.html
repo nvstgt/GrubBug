@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Mass Assignment Test{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Mass Assignment Vulnerability</h1>
+    <p>Use the form below to update profile fields. In secure mode, only specific fields are allowed to be updated. In insecure mode, all fields are updatable.</p>
+
+    <h2>Current Profile</h2>
+    <ul>
+        <li>Username: <span id="current-username">{{ user.username }}</span></li>
+        <li>Email: <span id="current-email">{{ user.email }}</span></li>
+        <li>Role: <span id="current-role">{{ user.role }}</span></li>
+    </ul>
+
+    <h2>Update Profile</h2>
+    <form id="mass-assignment-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" placeholder="Enter username">
+        <label for="email">Email:</label>
+        <input type="text" id="email" placeholder="Enter email">
+        <label for="role">Role:</label>
+        <input type="text" id="role" placeholder="Enter role">
+        <button type="button" id="update-profile">Update Profile</button>
+    </form>
+    <p id="update-response"></p>
+
+    <p>Current Mode: <span id="mode">{{ mode }}</span></p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/script.js"></script>
+<script>
+    document.getElementById('update-profile').addEventListener('click', async () => {
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const role = document.getElementById('role').value;
+        const responseMessage = document.getElementById('update-response');
+        const modeDisplay = document.getElementById('mode'); // Element for displaying the current mode
+
+        try {
+            const response = await fetch('/mass-assignment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, role })
+            });
+
+            const result = await response.json();
+
+            responseMessage.textContent = result.message || 'Profile updated successfully.';
+
+            // Update the mode display
+            if (result.mode) {
+                modeDisplay.textContent = `Current Mode: ${result.mode}`;
+            }
+
+            // Update the profile dynamically
+            if (result.updatedFields) {
+                if (result.updatedFields.username) {
+                    document.getElementById('current-username').textContent = result.updatedFields.username;
+                }
+                if (result.updatedFields.email) {
+                    document.getElementById('current-email').textContent = result.updatedFields.email;
+                }
+                if (result.updatedFields.role) {
+                    document.getElementById('current-role').textContent = result.updatedFields.role;
+                }
+            }
+        } catch (error) {
+            responseMessage.textContent = 'Error connecting to the server.';
+        }
+    });
+</script>
+
+{% endblock %}

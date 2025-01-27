@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrubBug - Order Food and More</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="logo">
+            <a href="/"><img src="/static/images/logo_hori.png" alt="GrubBug Logo" width="200"></a>
+        </div>
+        <nav class="header">
+            <ul>
+                {% if current_user.is_authenticated %}
+                    <li>Welcome, {{ current_user.username }}!</li>
+                    <li><a href="/logout">Logout</a></li>
+					<li><a href="/setup">Setup</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/signup">Sign Up</a></li>
+                {% endif %}
+				<li><a href="/about">About</a></li>
+				<li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Get Food Delivery and More</h1>
+                <form action="/search" method="GET">
+                    <input type="text" name="query" placeholder="Enter your address to find great local food!" required>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <div class="feature-content">
+                    <h2>Why You’ll Love GrubBug</h2>
+                    <div class="feature-grid">
+                        <div class="feature">
+                            <img src="static/images/local.png" width="130">
+							<h3>Local Restaurants</h3>
+                            <p>Find meals from your favorite local spots or discover something new.</p>
+                        </div>
+                        <div class="feature">
+                            <img src="static/images/delivery.png" width="130">
+							<h3>Delivery or Pickup</h3>
+                            <p>Sit back and relax, or skip the line with easy pickup options.</p>
+                        </div>
+                        <div class="feature">
+                            <img src="static/images/plus.png" width="130">
+							<h3>Save with GrubBug+</h3>
+                            <p>Join GrubBug+ for $0 delivery fees and exclusive offers.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-image">
+                    <img src="/static/images/foto_1.jpg" alt="Happy customers enjoying food">
+					<img src="/static/images/foto_2.jpg" alt="A romantic dinner for two">
+                </div>
+            </div>
+        </section>
+
+        <section class="about">
+            <div class="container">
+                <h2>About GrubBug</h2>
+                <p>GrubBug helps you find and order food from wherever you are. Enter your address, and we’ll show you the best restaurants near you. Want something specific? Search by cuisine, restaurant name, or menu item. Place your order online or via our app—it’s that easy.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+		<div class="container">
+			<!-- Newsletter Signup -->
+			<div class="footer-section">
+				<h4>Sign Up for Special Offers</h4>
+				<form action="/subscribe" method="POST">
+					<input type="email" name="email" placeholder="Your Email Address" required>
+					<input type="text" name="zip" placeholder="Your ZIP Code" required>
+					<button type="submit">Sign Up</button>
+				</form>
+			</div>
+
+			<!-- Quick Links -->
+			<div class="footer-section">
+				<h4>Quick Links</h4>
+				<ul>
+					<li><a href="/about">About Us</a></li>
+					<li><a href="/careers">Careers</a></li>
+					<li><a href="/help">Help</a></li>
+					<li><a href="/privacy">Privacy Policy</a></li>
+					<li><a href="/terms">Terms of Service</a></li>
+				</ul>
+			</div>
+
+			<!-- Social Media -->
+			<div class="footer-section">
+				<h4>Connect with Us</h4>
+				<div class="social-links">
+					<a href="#" aria-label="Facebook"><img src="/static/images/facebook.png" alt="Facebook"></a>
+					<a href="#" aria-label="Twitter"><img src="/static/images/twitter.png" alt="Twitter"></a>
+					<a href="#" aria-label="Instagram"><img src="/static/images/instagram.png" alt="Instagram"></a>
+				</div>
+			</div>
+
+			<!-- Explore -->
+			<div class="footer-section">
+				<h4>Explore</h4>
+				<ul>
+					<li><a href="/cuisine">Browse by Cuisine</a></li>
+					<li><a href="/city">Browse by City</a></li>
+					<li><a href="/restaurant">Browse by Restaurant</a></li>
+				</ul>
+			</div>
+
+			<!-- Legal -->
+			<div class="footer-bottom">
+				<p>&copy; 2025 GrubBug. All rights reserved.</p>
+			</div>
+		</div>
+	</footer>
+
+</body>
+</html>

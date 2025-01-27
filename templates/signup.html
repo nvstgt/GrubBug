@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - GrubBug</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="signup-page">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/"><img src="/static/images/logo_hori.png" alt="GrubBug Logo" width="200"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="signup-container">
+            <h1>Create Your GrubBug Account</h1>
+            <form action="/signup" method="POST" class="form">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password:</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </div>
+                <button type="submit" class="btn-primary">Sign Up</button>
+            </form>
+            <p>Already have an account? <a href="/login">Login here</a>.</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 GrubBug. Licensed under the MIT License.</p>
+        </div>
+    </footer>
+</body>
+</html>

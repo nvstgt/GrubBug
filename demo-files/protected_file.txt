@@ -1,0 +1,3 @@
+Owner: admin
+Protected: True
+Content: This is a demo file named protected_file.txt.

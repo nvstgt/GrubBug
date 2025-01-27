@@ -1,0 +1,3 @@
+Owner: bob
+Protected: False
+Content: This is a demo file named owned_file_2.txt.

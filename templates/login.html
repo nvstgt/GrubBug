@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - GrubBug</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/"><img src="/static/images/logo_hori.png" alt="GrubBug Logo" width="200"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+<body class="login-page">
+    <div class="login-container">
+        <h1>Login to GrubBug</h1>
+
+        <form action="/login" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <a href="/signup" class="signup-link">Don't have an account? Sign up here!</a>
+
+        <button class="sso-btn" onclick="window.location.href='/sso-login';">
+            Login with SSO (SAML)
+        </button>
+    </div>
+</body>
+</html>

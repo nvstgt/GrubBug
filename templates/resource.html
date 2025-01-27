@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Resource Access{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Resource Details</h1>
+    <p><strong>Resource Name:</strong> {{ resource.name }}</p>
+    <p><strong>Mode:</strong> {{ mode | capitalize}}</p>
+	<a href="javascript:void(0)" onclick="window.history.length > 1 ? history.back() : window.location.href = '/'">Go Back</a>
+</div>
+{% endblock %}

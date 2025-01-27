@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Direct Object References{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Direct Object References</h1>
+    {% if mode == "secure" %}
+        <p>You are viewing your own profile (User ID: {{ user_id }}). Object references are validated to prevent unauthorized access.</p>
+    {% else %}
+        <p>You are viewing User ID: {{ user_id }}. In insecure mode, references are not validated, allowing unauthorized access.</p>
+        <p>Try modifying the URL to access other user profiles, e.g., <code>?id=2</code>.</p>
+    {% endif %}
+</div>
+{% endblock %}
