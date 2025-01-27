@@ -7,6 +7,7 @@
 	<input type="text" id="required-field" name="required-field" required/><br />
 	<label for="regex-field">Numbers only, fool:</label>
     <input id="regex-field" name="regex-field" required pattern="[0-9]" />
+	<input id="user-id" name="user-id" type="hidden"  value="1234" />
 	<br>
 	<input type="submit" value="Submit" />
 </form>
@@ -16,8 +17,10 @@
 				const limitedField = document.getElementById("limited-field").value;
 				const requiredField = document.getElementById("required-field").value;
 				const regexField = document.getElementById("regex-field").value;
+				const userID = document.getElementById("user-id").value;
 				console.log("No more than 5: " + limitedField);
 				console.log("Required: " + requiredField);
 				console.log("Numbers only: " + regexField);
+				console.log("User ID: " + userID);
 		}
 </script>
