@@ -1,2 +1,23 @@
-<label>Client-Side Validation</label>
-<input type="text" maxlength="5">
+<h3>Client-Side Validation</h3>
+
+<form id="form1" onsubmit="getFormValue(event)">
+	<label for="limited-field">No more than 5 characters:</label>
+	<input type="text" id="limited-field" name="limited-field" maxlength="5"/><br />
+	<label for="required-field">Required field:</label>
+	<input type="text" id="required-field" name="required-field" required/><br />
+	<label for="regex-field">Numbers only, fool:</label>
+    <input id="regex-field" name="regex-field" required pattern="[0-9]" />
+	<br>
+	<input type="submit" value="Submit" />
+</form>
+<script>
+		function getFormValue(e) {
+				e.preventDefault();
+				const limitedField = document.getElementById("limited-field").value;
+				const requiredField = document.getElementById("required-field").value;
+				const regexField = document.getElementById("regex-field").value;
+				console.log("No more than 5: " + limitedField);
+				console.log("Required: " + requiredField);
+				console.log("Numbers only: " + regexField);
+		}
+</script>
