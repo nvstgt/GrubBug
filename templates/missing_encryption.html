@@ -1,34 +1,50 @@
 {% extends "base.html" %}
 
-{% block title %}Missing Encryption{% endblock %}
+{% block title %}Missing Encryption Demo{% endblock %}
 
 {% block content %}
 <div class="container">
     <h1>Missing Encryption Demo</h1>
-    <p>
-        This demo shows the risks of not encrypting sensitive data. In "Secure" mode, encryption is applied. In "Insecure" mode, data is returned in plaintext.
-    </p>
+    <p>This demo highlights the risks of transmitting or storing sensitive data without encryption.</p>
+    
+    <p><strong>Current Mode:</strong> {{ mode }}</p>
 
-    <form id="encryption-form">
-        <label for="message">Message:</label>
-        <input type="text" id="message" placeholder="Enter your message">
-        <button type="button" id="encrypt-button">Submit</button>
+    <h2>Enter Sensitive Data</h2>
+    <form method="POST">
+        <label for="data">Enter a secret value (e.g., password):</label>
+        <input type="text" id="data" name="data" required>
+        <button type="submit" class="btn-primary">Submit</button>
     </form>
 
-    <h2>Result:</h2>
-    <p id="result"></p>
-</div>
+    {% if intercepted_data or hashed_secure %}
+        <h3>Results</h3>
 
-<script>
-    document.getElementById('encrypt-button').addEventListener('click', async () => {
-        const message = document.getElementById('message').value;
-        const response = await fetch('/missing-encryption', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message }),
-        });
-        const result = await response.json();
-        document.getElementById('result').textContent = result.encrypted_message || result.plaintext_message || result.error;
-    });
-</script>
+        {% if mode == "Insecure" %}
+            <h4 style="color: red;">🚨 Insecure Mode: Data Stored in Plaintext</h4>
+            <p><strong>Intercepted Data:</strong> "{{ intercepted_data }}"</p>
+            <p style="color: red;"><strong>Simulated Man-in-the-Middle Attack:</strong> An attacker **sees this exact value** in network traffic.</p>
+            
+            <h4>Stored Data</h4>
+            <ul>
+                {% for item in insecure_storage %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+
+        {% else %}
+            <h4 style="color: green;">✅ Secure Mode: Data is Hashed</h4>
+            <p><strong>Hashed Value:</strong> {{ hashed_secure }}</p>
+            <p style="color: green;"><strong>Simulated Man-in-the-Middle Attack:</strong> An attacker only sees an unreadable hash, not the actual value.</p>
+            
+            <h4>Stored Data</h4>
+            <ul>
+                {% for item in secure_storage %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+
+    <a href="javascript:void(0)" onclick="window.history.back()">Go Back</a>
+</div>
 {% endblock %}

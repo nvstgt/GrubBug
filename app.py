@@ -688,49 +688,58 @@ def direct_file_access_test():
 def mass_assignment_test():
     return render_template('mass_assignment.html')
 
-@app.route('/insecure-encryption', methods=['POST'])
+@app.route('/insecure-encryption', methods=['GET', 'POST'])
+@login_required
 def insecure_encryption():
-    try:
-        data = request.get_json()
-        message = data.get('message')
-        if not message:
-            return jsonify({"error": "No message provided."}), 400
+    explanation = {
+        "secure": "AES-256 encryption with a randomly generated key and IV, ensuring strong security.",
+        "insecure": "AES-128 encryption with a weak hardcoded key and IV, making it vulnerable to attacks."
+    }
+    
+    message = None
+    encrypted_insecure = None
+    encrypted_secure = None
+    decrypted_insecure = None
+    decrypted_secure = None
+    brute_force_time = None
 
-        # Determine the current mode
-        is_secure_mode = current_app.config['IS_SECURE_MODE']
+    if request.method == 'POST':
+        message = request.form.get("message", "")
 
-        if is_secure_mode:
-            # Secure Encryption
-            iv = get_random_bytes(16)  # Generate a random IV for secure encryption
-            cipher = AES.new(SECURE_KEY, AES.MODE_CBC, iv=iv)
-            ciphertext = cipher.encrypt(pad(message.encode(), AES.block_size))
-            encrypted_message = base64.b64encode(iv + ciphertext).decode()  # Include IV with ciphertext
-            decrypted_message = unpad(AES.new(SECURE_KEY, AES.MODE_CBC, iv=iv).decrypt(ciphertext), AES.block_size).decode()
-            pattern_warning = None  # Secure mode avoids predictable patterns
-        else:
-            # Insecure Encryption
-            cipher = AES.new(INSECURE_KEY, AES.MODE_CBC, iv=INSECURE_IV)
-            ciphertext = cipher.encrypt(pad(message.encode(), AES.block_size))
-            encrypted_message = base64.b64encode(ciphertext).decode()
-            decrypted_message = unpad(cipher.decrypt(ciphertext), AES.block_size).decode()
+        if message:
+            # Encrypt with insecure encryption (weak key, predictable IV)
+            cipher_insecure = AES.new(INSECURE_KEY, AES.MODE_CBC, INSECURE_IV)
+            encrypted_insecure = base64.b64encode(cipher_insecure.encrypt(pad(message.encode(), AES.block_size))).decode()
 
-            # Pattern analysis for insecure mode
-            pattern_warning = None
-            if message == "TEST":
-                cipher_test = AES.new(INSECURE_KEY, AES.MODE_CBC, iv=INSECURE_IV)
-                test_ciphertext = cipher_test.encrypt(pad(message.encode(), AES.block_size))
-                if ciphertext == test_ciphertext:
-                    pattern_warning = "WARNING: Repeated plaintext produces similar ciphertext patterns!"
+            # Encrypt with secure encryption (random key and IV)
+            secure_iv = get_random_bytes(16)
+            cipher_secure = AES.new(SECURE_KEY, AES.MODE_CBC, secure_iv)
+            encrypted_secure = base64.b64encode(secure_iv + cipher_secure.encrypt(pad(message.encode(), AES.block_size))).decode()
 
-        return jsonify({
-            "encrypted_message": encrypted_message,
-            "decrypted_message": decrypted_message,
-            "mode": "Secure" if is_secure_mode else "Insecure",
-            "pattern_warning": pattern_warning
-        }), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+            # Decrypt in insecure mode (assumes the key is known)
+            cipher_insecure_dec = AES.new(INSECURE_KEY, AES.MODE_CBC, INSECURE_IV)
+            decrypted_insecure = unpad(cipher_insecure_dec.decrypt(base64.b64decode(encrypted_insecure)), AES.block_size).decode()
 
+            # Decrypt in secure mode
+            encrypted_secure_bytes = base64.b64decode(encrypted_secure)
+            secure_iv_dec = encrypted_secure_bytes[:16]  # Extract IV
+            cipher_secure_dec = AES.new(SECURE_KEY, AES.MODE_CBC, secure_iv_dec)
+            decrypted_secure = unpad(cipher_secure_dec.decrypt(encrypted_secure_bytes[16:]), AES.block_size).decode()
+
+            # Estimate brute-force time (assuming 10^9 attempts/sec)
+            brute_force_time = f"{(2**56) / 10**9} seconds (approx. 228 years on a fast GPU)" if current_app.config['IS_SECURE_MODE'] else "Instant (Key is hardcoded and known)"
+
+    return render_template(
+        'insecure_encryption.html',
+        explanation=explanation,
+        message=message,
+        encrypted_insecure=encrypted_insecure,
+        encrypted_secure=encrypted_secure,
+        decrypted_insecure=decrypted_insecure,
+        decrypted_secure=decrypted_secure,
+        brute_force_time=brute_force_time,
+        mode="Secure" if current_app.config['IS_SECURE_MODE'] else "Insecure"
+    )
 
 def encrypt_message(message, mode):
     if mode == "Insecure":
@@ -753,27 +762,39 @@ def decrypt_message(encrypted_message, mode):
     ).decode()
     return decrypted_message
 
+import hashlib
+
+# Temporary storage (simulating a database)
+INSECURE_STORAGE = []
+SECURE_STORAGE = []
+
 @app.route('/missing-encryption', methods=['GET', 'POST'])
 @login_required
 def missing_encryption():
-    """Demonstrate missing encryption practices."""
-    if request.method == 'POST':
-        data = request.get_json()
-        message = data.get("message")
-        if not message:
-            return jsonify({"error": "Message is required"}), 400
-        if current_app.config['IS_SECURE_MODE']:
-            # In secure mode, encrypt the message
-            encrypted_message = encrypt_message(message, "secure")
-            return jsonify({"encrypted_message": encrypted_message})
-        else:
-            # In insecure mode, return the plaintext message
-            return jsonify({"plaintext_message": message})
+    mode = "Secure" if current_app.config['IS_SECURE_MODE'] else "Insecure"
+    intercepted_data = None
+    hashed_secure = None
 
-    # Render the template for the missing encryption demo
+    if request.method == 'POST':
+        user_input = request.form.get("data")
+
+        if user_input:
+            if current_app.config['IS_SECURE_MODE']:
+                # Secure Mode: Hash the data before storing
+                hashed_secure = hashlib.sha256(user_input.encode()).hexdigest()
+                SECURE_STORAGE.append(hashed_secure)
+            else:
+                # Insecure Mode: Store the data as plaintext and simulate interception
+                INSECURE_STORAGE.append(user_input)
+                intercepted_data = user_input  # Simulating an attacker's view
+
     return render_template(
         'missing_encryption.html',
-        mode="Secure" if current_app.config['IS_SECURE_MODE'] else "Insecure"
+        mode=mode,
+        intercepted_data=intercepted_data,
+        hashed_secure=hashed_secure,
+        insecure_storage=INSECURE_STORAGE if not current_app.config['IS_SECURE_MODE'] else None,
+        secure_storage=SECURE_STORAGE if current_app.config['IS_SECURE_MODE'] else None
     )
 
 # Initialize database and add dummy data

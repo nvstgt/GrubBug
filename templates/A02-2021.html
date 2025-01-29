@@ -1,37 +1,62 @@
 {% extends "base.html" %}
 
-{% block title %}A01-2021: Broken Access Control{% endblock %}
+{% block title %}A02-2021: Cryptographic Failures{% endblock %}
 
 {% block content %}
-        <div class="container">
-            <h1>A02-2021: Cryptographic Failures</h1>
-            <p>
-                Cryptographic Failures occur when sensitive data is not properly protected through secure cryptographic methods. 
-                This hub demonstrates examples of insecure and secure cryptographic implementations.
-            </p>
+<div class="container">
+    <h1>A02-2021: Cryptographic Failures</h1>
+    <p>
+        Cryptographic Failures occur when sensitive data is not properly protected through secure cryptographic methods.
+        This hub demonstrates examples of insecure and secure cryptographic implementations.
+    </p>
 
-            <div class="examples">
-                <h2>Examples</h2>
-                <ul>
-                    <li><a href="/insecure-encryption">Insecure Encryption</a></li>
-                    <li><a href="/missing-encryption">Missing Encryption</a></li>
-                    <!-- Add more examples as needed -->
-                </ul>
-            </div>
+    <div class="examples">
+        <h2>Examples</h2>
+        <ul>
+            <li>
+                <a href="/insecure-encryption">Insecure Encryption</a>
+                <p>
+                    Demonstrates the impact of weak encryption methods (e.g., ECB mode, short keys, and hardcoded secrets).
+                </p>
+            </li>
+            <li>
+                <a href="/missing-encryption">Missing Encryption</a>
+                <p>
+                    Highlights data exposed in transit and at rest due to lack of encryption.
+                </p>
+            </li>
+            <li>
+                <a href="/weak-hashing">Weak Hashing</a>
+                <p>
+                    Compares weak hashing algorithms (e.g., MD5, SHA1) vs. modern alternatives (e.g., bcrypt, Argon2).
+                </p>
+            </li>
+            <li>
+                <a href="/predictable-random">Predictable Random Numbers</a>
+                <p>
+                    Explains why weak random number generation compromises cryptographic security.
+                </p>
+            </li>
+            <li>
+                <a href="/key-reuse">Key Reuse Across Sessions</a>
+                <p>
+                    Shows why reusing the same encryption key across multiple sessions is a vulnerability.
+                </p>
+            </li>
+        </ul>
+    </div>
 
-            <div class="toggle-section">
-                <h2>Secure/Insecure Mode</h2>
-                <p>Use the button below to toggle the site between secure and insecure modes to observe the vulnerabilities.</p>
-                <button id="toggle-mode" class="btn-primary">
-                    Switch to Insecure Mode
-                </button>
-                <p id="mode-status">Current Mode: Secure</p>
-            </div>
-			    <a href="javascript:void(0)" onclick="window.history.length > 1 ? history.back() : window.location.href = '/'">Go Back</a>
-        </div>
-    </main>
+    <div class="toggle-section">
+        <h2>Secure/Insecure Mode</h2>
+        <p>Use the button below to toggle the site between secure and insecure modes to observe the vulnerabilities.</p>
+        <button id="toggle-mode" class="btn-primary">
+            Switch Mode
+        </button>
+        <p id="mode-status">Current Mode: Secure</p>
+    </div>
 
-{% endblock %}
-
-{% block scripts %}
+    <a href="javascript:void(0)" onclick="window.history.length > 1 ? history.back() : window.location.href = '/'">
+        Go Back
+    </a>
+</div>
 {% endblock %}

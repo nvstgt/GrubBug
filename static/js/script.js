@@ -185,3 +185,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 });
+
+document.getElementById('encrypt-button').addEventListener('click', async () => {
+    const message = document.getElementById('message').value;
+    const encryptedMessage = document.getElementById('encrypted-message');
+    const decryptedMessage = document.getElementById('decrypted-message');
+    const patternWarning = document.getElementById('pattern-warning');
+
+    try {
+        const response = await fetch('/insecure-encryption', {
+            method: 'POST', // Ensure the method is POST
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message }) // Pass the message in the body
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to process request.');
+        }
+
+        const data = await response.json();
+
+        // Update results dynamically
+        encryptedMessage.textContent = data.encrypted_message || "N/A";
+        decryptedMessage.textContent = data.decrypted_message || "N/A";
+        patternWarning.textContent = data.pattern_warning || "";
+    } catch (error) {
+        console.error("Error:", error);
+        encryptedMessage.textContent = "Error occurred.";
+        decryptedMessage.textContent = "Error occurred.";
+        patternWarning.textContent = "Could not process the request.";
+    }
+});

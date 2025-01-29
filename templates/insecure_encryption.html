@@ -5,53 +5,33 @@
 {% block content %}
 <div class="container">
     <h1>Insecure Encryption Demo</h1>
-    <p>This demonstrates the difference between insecure and secure encryption practices.</p>
-    <p>Secure mode uses AES-256 with dynamic keys, while insecure mode uses weak keys, fixed IVs, and predictable patterns.</p>
+    <p>Demonstrating the risks of weak encryption.</p>
+    
+    <p><strong>Current Mode:</strong> {{ mode }}</p>
+    
+    <h2>Encryption Methods</h2>
+    <p><strong>Secure Encryption:</strong> {{ explanation['secure'] }}</p>
+    <p><strong>Insecure Encryption:</strong> {{ explanation['insecure'] }}</p>
 
-    <div class="encryption-demo">
+    <form method="POST">
         <label for="message">Enter a message to encrypt:</label>
-        <input type="text" id="message" placeholder="Enter message">
-        <button id="encrypt-button" class="btn-primary">Encrypt</button>
-    </div>
+        <input type="text" id="message" name="message" required>
+        <button type="submit" class="btn-primary">Encrypt</button>
+    </form>
 
-    <h2>Results</h2>
-    <p><strong>Encrypted Message:</strong> <span id="encrypted-message">N/A</span></p>
-    <p><strong>Decrypted Message:</strong> <span id="decrypted-message">N/A</span></p>
-    <p id="pattern-warning" style="color: red; font-weight: bold;"></p>
+    {% if message %}
+        <h3>Results for Input: "{{ message }}"</h3>
+
+        <h4>Insecure Encryption (AES-128, hardcoded key & IV)</h4>
+        <p><strong>Encrypted:</strong> {{ encrypted_insecure }}</p>
+        <p><strong>Decrypted:</strong> {{ decrypted_insecure }}</p>
+        <p style="color: red;"><strong>Brute Force Time Estimate:</strong> {{ brute_force_time }}</p>
+
+        <h4>Secure Encryption (AES-256, randomized key & IV)</h4>
+        <p><strong>Encrypted:</strong> {{ encrypted_secure }}</p>
+        <p><strong>Decrypted:</strong> {{ decrypted_secure }}</p>
+    {% endif %}
+
+    <a href="javascript:void(0)" onclick="window.history.back()">Go Back</a>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    document.getElementById('encrypt-button').addEventListener('click', async () => {
-        const message = document.getElementById('message').value;
-        const encryptedMessage = document.getElementById('encrypted-message');
-        const decryptedMessage = document.getElementById('decrypted-message');
-        const patternWarning = document.getElementById('pattern-warning');
-
-        try {
-            const response = await fetch('/insecure-encryption', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message })
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to process request.');
-            }
-
-            const data = await response.json();
-
-            // Update results dynamically
-            encryptedMessage.textContent = data.encrypted_message || "N/A";
-            decryptedMessage.textContent = data.decrypted_message || "N/A";
-            patternWarning.textContent = data.pattern_warning || "";
-        } catch (error) {
-            console.error("Error:", error);
-            encryptedMessage.textContent = "Error occurred.";
-            decryptedMessage.textContent = "Error occurred.";
-            patternWarning.textContent = "Could not process the request.";
-        }
-    });
-</script>
 {% endblock %}
